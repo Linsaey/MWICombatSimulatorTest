@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 
 <head>
     <style>
         .form-control {
-            min-width: 3.60rem
+            min-width: 3.60rem;
         }
 
         body.dark-mode {
@@ -22,7 +22,8 @@
         body.dark-mode .accordion-button,
         body.dark-mode .accordion-collapse,
         body.dark-mode .modal-content,
-        body.dark-mode textarea {
+        body.dark-mode textarea,
+        body.dark-mode details.mobile-details {
             background-color: #444;
             color: #f0f0f0;
             border: 1px solid #999;
@@ -102,7 +103,6 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        /* ===== 手机竖屏专用 ===== */
         html {
             -webkit-text-size-adjust: 100%;
         }
@@ -132,28 +132,19 @@
             min-height: 42px;
         }
 
-        #playerTab {
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        #playerTab .nav-item {
-            flex: 0 0 auto;
-        }
-
         .mobile-details {
-            border: 1px solid #666;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 8px;
-            padding: 10px;
+            padding: 8px 10px;
             margin-bottom: 12px;
+            background: transparent;
         }
 
         .mobile-details>summary {
             font-weight: 700;
             cursor: pointer;
             list-style: none;
+            user-select: none;
         }
 
         .mobile-details>summary::-webkit-details-marker {
@@ -171,6 +162,53 @@
             content: "收起";
         }
 
+        .mobile-pair-row {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 10px;
+            align-items: start;
+            margin-bottom: 6px;
+        }
+
+        .mobile-pair-row>* {
+            min-width: 0;
+        }
+
+        .mobile-pair-row>*:last-child {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .mobile-damage-row {
+            display: grid !important;
+            grid-template-columns: minmax(0, 1fr) 54px 48px 36px;
+            gap: 8px;
+            align-items: start;
+            margin-bottom: 6px;
+        }
+
+        .mobile-damage-row>* {
+            min-width: 0;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .mobile-damage-row>*:not(:first-child) {
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        #simulationResultDrops {
+            max-height: 320px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 4px;
+        }
+
+        #simulationResultColumn2 .accordion-item {
+            margin-bottom: 8px;
+        }
+
         @media (max-width: 430px) {
             .container-fluid {
                 padding-left: 4px;
@@ -183,6 +221,39 @@
                 max-width: 100%;
             }
 
+            #setupSection {
+                order: 1;
+            }
+
+            #resultsSection {
+                order: 2;
+            }
+
+            #combatStatsSection {
+                order: 3;
+            }
+
+            #playerTab {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 4px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                padding-bottom: 2px;
+            }
+
+            #playerTab .nav-item {
+                flex: 0 0 auto;
+            }
+
+            #playerTab .nav-link {
+                padding: 6px 10px;
+                font-size: 14px !important;
+                line-height: 1.1;
+                white-space: nowrap;
+            }
+
             #setupTopRow>.col-md-4,
             #setupTopRow>.col-md-8,
             #setupBottomRow>.col-md-5,
@@ -193,20 +264,22 @@
 
             #levelsSection .level-row {
                 align-items: center;
+                margin-left: 0;
+                margin-right: 0;
             }
 
             #levelsSection .level-row>label.col-md-6 {
-                flex: 0 0 42%;
-                max-width: 42%;
+                flex: 0 0 40%;
+                max-width: 40%;
                 padding-top: 0;
                 padding-bottom: 0;
                 padding-left: 0;
-                padding-right: 0;
+                padding-right: 8px;
             }
 
             #levelsSection .level-row>.col-md-6 {
-                flex: 0 0 58%;
-                max-width: 58%;
+                flex: 0 0 60%;
+                max-width: 60%;
                 padding-left: 0;
                 padding-right: 0;
             }
@@ -214,7 +287,7 @@
             #houseAchievementRow {
                 display: grid;
                 grid-template-columns: 1fr 1fr;
-                gap: 6px;
+                gap: 8px;
                 margin-left: 0;
                 margin-right: 0;
             }
@@ -226,11 +299,32 @@
                 padding-right: 0;
             }
 
+            #priceSettingsCompactRow {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            #priceSettingsCompactRow .price-col {
+                min-width: 0;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #priceSettingsCompactRow .price-col label {
+                display: block;
+                font-size: 13px;
+                margin-bottom: 4px;
+                padding: 0;
+            }
+
             #equipmentHeaderRow,
             .equipment-row {
                 display: grid;
-                grid-template-columns: 50px 1fr 64px;
-                column-gap: 6px;
+                grid-template-columns: 52px minmax(0, 1fr) 66px;
+                column-gap: 8px;
                 align-items: center;
                 margin-left: 0;
                 margin-right: 0;
@@ -243,10 +337,20 @@
                 min-width: 0;
                 padding-left: 0;
                 padding-right: 0;
+                margin-bottom: 0;
+            }
+
+            #equipmentHeaderRow {
+                margin-bottom: 8px;
+                font-size: 13px;
+            }
+
+            .equipment-row {
+                margin-bottom: 8px !important;
             }
 
             .equipment-row>label {
-                font-size: 12px;
+                font-size: 13px;
                 line-height: 1.1;
                 padding-top: 0;
                 padding-bottom: 0;
@@ -254,8 +358,8 @@
 
             #equipmentPresetsRow {
                 display: grid;
-                grid-template-columns: 62px 1fr;
-                column-gap: 6px;
+                grid-template-columns: 58px 1fr;
+                column-gap: 8px;
                 align-items: center;
                 margin-left: 0;
                 margin-right: 0;
@@ -272,8 +376,8 @@
             .food-row,
             .drink-row {
                 display: grid;
-                grid-template-columns: 1fr 82px;
-                column-gap: 6px;
+                grid-template-columns: minmax(0, 1fr) 88px;
+                column-gap: 8px;
                 align-items: center;
                 margin-left: 0;
                 margin-right: 0;
@@ -288,12 +392,37 @@
                 padding-right: 0;
             }
 
-            #buttonGetPrices,
-            #buttonEditPrices,
-            #buttonPatchNotes,
-            #buttonWipeEvents,
-            #buttonExperimentalFeatures {
+            .food-row .btn,
+            .drink-row .btn {
                 width: 100%;
+                min-height: 42px;
+                white-space: nowrap;
+            }
+
+            #priceActionRow,
+            #logActionRow {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            #priceActionRow>*,
+            #logActionRow>* {
+                width: auto !important;
+                max-width: none !important;
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #priceActionRow .btn,
+            #logActionRow .btn {
+                width: 100%;
+            }
+
+            #experimentalRow {
+                display: none !important;
             }
 
             #abilitiesHeaderRow {
@@ -302,7 +431,7 @@
 
             .ability-row {
                 display: grid;
-                grid-template-columns: 38px 1fr 52px 82px;
+                grid-template-columns: 36px minmax(0, 1fr) 58px 84px;
                 column-gap: 6px;
                 align-items: center;
                 margin-left: 0;
@@ -315,6 +444,14 @@
                 min-width: 0;
                 padding-left: 0;
                 padding-right: 0;
+                margin-bottom: 0;
+            }
+
+            .ability-row .btn {
+                width: 100%;
+                min-height: 42px;
+                white-space: nowrap;
+                padding: 0 6px;
             }
 
             #simulationControlsRow {
@@ -357,6 +494,13 @@
                 width: 100%;
             }
 
+            #darkModeRow {
+                grid-column: 1 / -1;
+                display: flex !important;
+                align-items: center;
+                gap: 10px;
+            }
+
             #profileRow {
                 display: grid;
                 grid-template-columns: 1fr;
@@ -378,12 +522,16 @@
             #combatStatsSection .row>.col-md-8 {
                 flex: 0 0 68%;
                 max-width: 68%;
+                padding-left: 0;
+                padding-right: 0;
             }
 
             #combatStatsSection .row>.col-md-4 {
                 flex: 0 0 32%;
                 max-width: 32%;
                 text-align: right;
+                padding-left: 0;
+                padding-right: 0;
             }
 
             #resultsSection>.row>.col-md-5,
@@ -392,16 +540,49 @@
                 max-width: 100%;
             }
 
+            #damageDoneHeader,
+            #damageTakenHeader {
+                display: grid;
+                grid-template-columns: minmax(0, 1fr) 54px 48px 36px;
+                gap: 8px;
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            #damageDoneHeader>*,
+            #damageTakenHeader>* {
+                padding-left: 0;
+                padding-right: 0;
+            }
+
+            #damageDoneHeader>*:not(:first-child),
+            #damageTakenHeader>*:not(:first-child) {
+                text-align: right;
+            }
+
             #simulationResultColumn2 {
-                overflow-x: auto;
+                overflow-x: hidden;
+            }
+
+            #simulationResultTotalDamageDone,
+            #simulationResultTotalDamageTaken {
+                overflow-x: hidden;
             }
         }
     </style>
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta http-equiv="Access-Control-Allow-Origin" content="*" />
     <title>MWI Combat Simulator</title>
     <link rel="icon" href="data:," />
+
+    <script>
+        try {
+            localStorage.setItem('i18nextLng', 'zh');
+        } catch (e) { }
+    </script>
+
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/css/bootstrap.min.css"
         integrity="sha512-XWTTruHZEYJsxV3W/lSXG1n3Q39YIWOstqvmFsdNEEQfHoZ6vm6E9GK2OrF6DSJSpIbRbi+Nn0WDPID9O7xB2Q=="
@@ -443,13 +624,13 @@
         </ul>
 
         <div class="row pt-3" id="mainMobileLayout">
-            <div class="col-md-5">
+            <div class="col-md-5" id="setupSection">
                 <div class="row mb-3" id="setupTopRow">
                     <div class="col-md-4" id="levelsSection">
-                        <!-- #region Levels -->
                         <div class="row mb-3">
                             <b data-i18n="sharableProfile.skills">Levels</b>
                         </div>
+
                         <div class="row mb-2 level-row">
                             <label for="inputLevel_combat" class="col-md-6 col-form-label"
                                 data-i18n="actionTypeNames./action_types/combat">Combat</label>
@@ -531,26 +712,24 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- #endregion -->
 
-                        <div class="row">
+                        <div class="row mt-2 mb-1">
                             <b data-i18n="common:priceSettings.title">Price Settings</b>
                         </div>
-                        <div class="row">
-                            <label for="selectPrices_consumables" class="col-md-12 col-form-label"
-                                data-i18n="common:priceSettings.consumablePrices">Consumable Prices</label>
-                            <div class="col-md-12 mb-2">
+
+                        <div class="row" id="priceSettingsCompactRow">
+                            <div class="col-6 price-col">
+                                <label for="selectPrices_consumables" class="col-form-label"
+                                    data-i18n="common:priceSettings.consumablePrices">Consumable Prices</label>
                                 <select id="selectPrices_consumables" class="form-select">
                                     <option default value="ask" data-i18n="marketplacePanel.bestAskPrice">Ask (SO)
                                     </option>
                                     <option value="bid" data-i18n="marketplacePanel.bestBidPrice">Bid (BO)</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label for="selectPrices_drops" class="col-md-12 col-form-label"
-                                data-i18n="common:priceSettings.dropPrices">Drop Prices</label>
-                            <div class="col-md-12">
+                            <div class="col-6 price-col">
+                                <label for="selectPrices_drops" class="col-form-label"
+                                    data-i18n="common:priceSettings.dropPrices">Drop Prices</label>
                                 <select id="selectPrices_drops" class="form-select">
                                     <option default value="bid" data-i18n="marketplacePanel.bestBidPrice">Bid (BO)
                                     </option>
@@ -561,7 +740,6 @@
                     </div>
 
                     <div class="col-md-8" id="equipmentSection">
-                        <!-- #region Equipment -->
                         <div class="row mb-3" id="equipmentHeaderRow">
                             <div class="col-md-2"><b data-i18n="settingsPanel.slots">Slot</b></div>
                             <div class="col-md-6"><b data-i18n="marketplacePanel.item">Item</b></div>
@@ -781,16 +959,15 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- #endregion -->
                     </div>
                 </div>
 
                 <div class="row mb-3" id="setupBottomRow">
                     <div class="col-md-5" id="foodSection">
-                        <!-- #region Food -->
                         <div class="row mb-3">
                             <b data-i18n="consumableSlot.food">Food</b>
                         </div>
+
                         <div class="row mb-2 food-row">
                             <div class="col">
                                 <select id="selectFood_0" class="form-select">
@@ -805,6 +982,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="row mb-2 food-row">
                             <div class="col">
                                 <select id="selectFood_1" class="form-select">
@@ -819,6 +997,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="row mb-3 food-row">
                             <div class="col">
                                 <select id="selectFood_2" class="form-select">
@@ -833,12 +1012,11 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- #endregion -->
 
-                        <!-- #region Drinks and Patch Notes -->
                         <div class="row mb-3">
                             <b data-i18n="consumableSlot.drink">Drinks</b>
                         </div>
+
                         <div class="row mb-2 drink-row">
                             <div class="col">
                                 <select id="selectDrink_0" class="form-select">
@@ -853,6 +1031,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="row mb-2 drink-row">
                             <div class="col">
                                 <select id="selectDrink_1" class="form-select">
@@ -867,6 +1046,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="row mb-2 drink-row">
                             <div class="col">
                                 <select id="selectDrink_2" class="form-select">
@@ -882,7 +1062,7 @@
                             </div>
                         </div>
 
-                        <div class="row pt-3">
+                        <div class="row pt-3" id="priceActionRow">
                             <div class="col-md-auto">
                                 <button id="buttonGetPrices" class="btn btn-primary" type="button"
                                     data-i18n="common:getPrices">
@@ -897,7 +1077,8 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row pt-3">
+
+                        <div class="row pt-3" id="logActionRow">
                             <div class="col-md-auto">
                                 <button id="buttonPatchNotes" class="btn btn-primary" type="button"
                                     data-bs-toggle="modal" data-bs-target="#patchNotesModal"
@@ -905,8 +1086,6 @@
                                     Patch Notes
                                 </button>
                             </div>
-                        </div>
-                        <div class="row pt-3">
                             <div class="col-md-auto">
                                 <button id="buttonWipeEvents" class="btn btn-primary" type="button"
                                     data-bs-toggle="modal" data-bs-target="#WipeEventsModal"
@@ -915,20 +1094,19 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row pt-3">
+
+                        <div class="row pt-3" id="experimentalRow">
                             <div class="col-md-auto">
                                 <button id="buttonExperimentalFeatures" class="btn btn-primary" type="button"
                                     data-bs-toggle="modal" data-bs-target="#ExperimentalFeaturesModal"
                                     data-i18n="common:Experiment.ExperimentalFeatures">
-                                    Experiment Feautres
+                                    Experiment Features
                                 </button>
                             </div>
                         </div>
-                        <!-- #endregion -->
                     </div>
 
                     <div class="col-md-7" id="abilitiesSection">
-                        <!-- #region Abilities -->
                         <div class="row mb-3" id="abilitiesHeaderRow">
                             <div class="col-md-6">
                                 <b data-i18n="characterManagement.abilities">Abilities</b>
@@ -1047,9 +1225,7 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- #endregion-->
 
-                        <!-- #region Simulation Controls -->
                         <div class="row mb-2 pt-3" id="simulationControlsRow">
                             <div class="col-md-auto">
                                 <button id="buttonSimulationSetup" class="btn btn-primary" type="button"
@@ -1087,10 +1263,8 @@
                                     Import/Export
                                 </button>
                             </div>
-                            <div class="col-md-auto">
-                                <div data-i18n="common:controls.darkMode">
-                                    Dark Mode:
-                                </div>
+                            <div class="col-md-auto" id="darkModeRow">
+                                <div data-i18n="common:controls.darkMode">Dark Mode:</div>
                                 <label class="switch">
                                     <input type="checkbox" id="darkModeToggle">
                                     <span class="slider round"></span>
@@ -1112,13 +1286,11 @@
                             <label for="comboBox">Select an Character: </label>
                             <select id="profile-combo-container"></select>
                         </div>
-                        <!-- #endregion -->
                     </div>
                 </div>
             </div>
 
             <div class="col-md-2" id="combatStatsSection">
-                <!-- #region Combat stats -->
                 <details class="mobile-details">
                     <summary data-i18n="equipmentPanel.combatStats">Combat Stats</summary>
                     <div class="pt-2">
@@ -1408,48 +1580,55 @@
                         </div>
                     </div>
                 </details>
-                <!-- #endregion -->
             </div>
 
             <div class="col-md-5" id="resultsSection">
                 <div class="row mb-3">
                     <b data-i18n="common:simulationResults.title">Simulation Results</b>
                 </div>
+
                 <div class="row">
-                    <!-- #region Simulation Results -->
                     <div class="col-md-5">
                         <div class="row">
                             <b data-i18n="common:simulationResults.killPerHour">Kills per hour</b>
                         </div>
                         <div id="simulationResultKills" class="mb-2"></div>
+
                         <div class="row" id="simulationBossTimeHeading">
                             <b data-i18n="common:simulationResults.timeSpentOnBoss">Time spent on boss</b>
                         </div>
                         <div id="simulationBossTime" class="mb-2"></div>
+
                         <div class="row">
                             <b data-i18n="common:simulationResults.deathPerHour">Deaths per hour</b>
                         </div>
                         <div id="simulationResultPlayerDeaths" class="mb-2"></div>
+
                         <div class="row">
                             <b data-i18n="common:simulationResults.xpPerHour">XP per hour</b>
                         </div>
                         <div id="simulationResultExperienceGain" class="mb-2"></div>
+
                         <div class="row" id="simulationHpSpentHeading">
                             <b data-i18n="common:simulationResults.hpSpentPerHour">HP Spent per hour</b>
                         </div>
                         <div id="simulationHpSpent" class="mb-2"></div>
+
                         <div class="row">
                             <b data-i18n="common:simulationResults.consumablesUsedPerHour">Consumables used per hour</b>
                         </div>
                         <div id="simulationResultConsumablesUsed" class="mb-2"></div>
+
                         <div class="row">
                             <b data-i18n="common:simulationResults.manaUsedPerHour">Mana used per hour (Casts/h)</b>
                         </div>
                         <div id="simulationResultManaUsed" class="mb-2"></div>
+
                         <div class="row">
                             <b data-i18n="common:simulationResults.healthRestoredPerSecond">Health restored per second</b>
                         </div>
                         <div id="simulationResultHealthRestored" class="mb-2"></div>
+
                         <div class="row">
                             <b data-i18n="common:simulationResults.manaRestoredPerSecond">Mana restored per second</b>
                         </div>
@@ -1460,34 +1639,39 @@
                         <div class="row">
                             <b data-i18n="common:simulationResults.damageDoneTotal">Damage Done (Total)</b>
                         </div>
-                        <div class="row">
+                        <div class="row" id="damageDoneHeader">
                             <div class="col-md-5"><b data-i18n="common:simulationResults.source">Source</b></div>
                             <div class="col-md-3 text-end"><b data-i18n="common:simulationResults.hitChance">Hitchance</b></div>
                             <div class="col-md-2 text-end"><b>DPS</b></div>
                             <div class="col-md-2 text-end"><b>%</b></div>
                         </div>
                         <div id="simulationResultTotalDamageDone" class="mb-2"></div>
+
                         <div class="row pt-2">
                             <b data-i18n="common:simulationResults.damageTakenTotal">Damage Taken (Total)</b>
                         </div>
-                        <div class="row">
+                        <div class="row" id="damageTakenHeader">
                             <div class="col-md-5"><b data-i18n="common:simulationResults.source">Source</b></div>
                             <div class="col-md-3 text-end"><b data-i18n="common:simulationResults.hitChance">Hitchance</b></div>
                             <div class="col-md-2 text-end"><b>DPS</b></div>
                             <div class="col-md-2 text-end"><b>%</b></div>
                         </div>
                         <div id="simulationResultTotalDamageTaken" class="mb-2"></div>
+
                         <div class="row pt-2">
                             <b><span data-i18n="common:profit">Profit</span>: <span id="profitPreview"></span></b>
                         </div>
                         <div class="row pt-2">
-                            <b><span data-i18n="common:noRNGProfit">No RNG Profit</span>: <span
-                                    id="noRngProfitPreview"></span></b>
+                            <b><span data-i18n="common:noRNGProfit">No RNG Profit</span>: <span id="noRngProfitPreview"></span></b>
                         </div>
-                        <div class="row pt-2">
-                            <b data-i18n="common:dropTotal">Drops (Total)</b>
-                        </div>
-                        <div class="row" id="simulationResultDrops"></div>
+
+                        <details class="mobile-details mt-2" id="dropsDetails">
+                            <summary data-i18n="common:dropTotal">Drops (Total)</summary>
+                            <div class="pt-2">
+                                <div class="row" id="simulationResultDrops"></div>
+                            </div>
+                        </details>
+
                         <div class="row pt-2 d-none" id="noRngDropsAccordion">
                             <div class="col">
                                 <div class="accordion">
@@ -1509,12 +1693,11 @@
                             </div>
                         </div>
                     </div>
-                    <!-- #endregion -->
+
                 </div>
             </div>
         </div>
 
-        <!-- #region HP/MP 可视化图表 -->
         <div class="row mt-4 d-none" id="combatChartsContainer">
             <div class="col-12">
                 <div class="row mb-3">
@@ -1534,11 +1717,9 @@
                 </div>
             </div>
         </div>
-        <!-- #endregion -->
     </div>
 
     <div class="modal" id="triggerModal" tabindex="-1">
-        <!-- #region Trigger Modal -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1549,8 +1730,7 @@
                     <input type="hidden" id="inputModalTriggerTarget" />
                     <div class="container-fluid">
                         <div class="row mb-2">
-                            <div class="col" id="triggerStartText" data-i18n="combatTriggersSetting.activateWhen">
-                                Activate when:</div>
+                            <div class="col" id="triggerStartText" data-i18n="combatTriggersSetting.activateWhen">Activate when:</div>
                         </div>
                         <div class="row mb-2" id="modalTrigger_0">
                             <div class="col-md-10">
@@ -1693,14 +1873,12 @@
                         </div>
                         <div class="row pt-2">
                             <div class="col-md-6 text-center">
-                                <button type="button" class="btn btn-primary" id="buttonAddTrigger"
-                                    data-i18n="combatTriggersSetting.addCondition">
+                                <button type="button" class="btn btn-primary" id="buttonAddTrigger" data-i18n="combatTriggersSetting.addCondition">
                                     Add condition
                                 </button>
                             </div>
                             <div class="col-md-6 text-center">
-                                <button type="button" class="btn btn-primary" id="buttonDefaultTrigger"
-                                    data-i18n="combatTriggersSetting.resetDefault">
+                                <button type="button" class="btn btn-primary" id="buttonDefaultTrigger" data-i18n="combatTriggersSetting.resetDefault">
                                     Set to default
                                 </button>
                             </div>
@@ -1708,20 +1886,16 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="modalProvider.cancel">Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="buttonTriggerModalSave"
-                        data-i18n="combatTriggersSetting.save">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="modalProvider.cancel">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="buttonTriggerModalSave" data-i18n="combatTriggersSetting.save">
                         Save
                     </button>
                 </div>
             </div>
         </div>
-        <!-- #endregion -->
     </div>
 
     <div class="modal" id="equipmentSetsModal" tabindex="-1">
-        <!-- #region Equipment Sets Modal -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1732,14 +1906,12 @@
                     <div class="container-fluid">
                         <div id="equipmentSetList"></div>
                         <div class="row">
-                            <label for="inputEquipmentSetName" class="col-md-auto col-form-label"
-                                data-i18n="common:controls.name">Name</label>
+                            <label for="inputEquipmentSetName" class="col-md-auto col-form-label" data-i18n="common:controls.name">Name</label>
                             <div class="col">
                                 <input type="text" id="inputEquipmentSetName" class="form-control" />
                             </div>
                             <div class="col-md-auto">
-                                <button type="button" id="buttonCreateNewEquipmentSet" class="btn btn-primary"
-                                    data-i18n="common:controls.create">
+                                <button type="button" id="buttonCreateNewEquipmentSet" class="btn btn-primary" data-i18n="common:controls.create">
                                     Create
                                 </button>
                             </div>
@@ -1747,16 +1919,13 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
-        <!-- #endregion -->
     </div>
 
     <div class="modal" id="startSimulationModal" tabindex="-1">
-        <!-- #region Start Simulation Modal -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1769,21 +1938,17 @@
                         <div class="row mb-1">
                             <label for="selectZone" class="col-md-3 col-form-label" data-i18n="party.selectZone">Zone</label>
                             <div class="col-md">
-                                <select id="selectZone" class="form-select">
-                                </select>
+                                <select id="selectZone" class="form-select"></select>
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="selectDungeon" class="col-md-3 col-form-label"
-                                data-i18n="shopCategoryNames./shop_categories/dungeon">Dungeon</label>
+                            <label for="selectDungeon" class="col-md-3 col-form-label" data-i18n="shopCategoryNames./shop_categories/dungeon">Dungeon</label>
                             <div class="col-md">
-                                <select id="selectDungeon" class="form-select">
-                                </select>
+                                <select id="selectDungeon" class="form-select"></select>
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="selectDifficulty" class="col-md-3 col-form-label"
-                                data-i18n="party.difficulty">Difficulty</label>
+                            <label for="selectDifficulty" class="col-md-3 col-form-label" data-i18n="party.difficulty">Difficulty</label>
                             <div class="col-md">
                                 <select id="selectDifficulty" class="form-select">
                                     <option value="0">T0</option>
@@ -1796,31 +1961,25 @@
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="inputSimulationTime" class="col-md-3 col-form-label"
-                                data-i18n="skillActionDetail.duration">Duration</label>
+                            <label for="inputSimulationTime" class="col-md-3 col-form-label" data-i18n="skillActionDetail.duration">Duration</label>
                             <div class="col-md">
                                 <div class="input-group">
-                                    <input type="number" id="inputSimulationTime" class="form-control" value="100"
-                                        min="1" max="2500" required />
+                                    <input type="number" id="inputSimulationTime" class="form-control" value="100" min="1" max="2500" required />
                                     <span class="input-group-text" data-i18n="settingsPanel.hours">hours</span>
                                 </div>
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="selectLabyrinth" class="col-md-3 col-form-label"
-                                data-i18n="labyrinthPanel.combatRoom">Labyrinth</label>
+                            <label for="selectLabyrinth" class="col-md-3 col-form-label" data-i18n="labyrinthPanel.combatRoom">Labyrinth</label>
                             <div class="col-md">
-                                <select id="selectLabyrinth" class="form-select">
-                                </select>
+                                <select id="selectLabyrinth" class="form-select"></select>
                             </div>
                         </div>
                         <div class="row mb-1">
-                            <label for="inputRoomLevel" class="col-md-3 col-form-label"
-                                data-i18n="common:roomLevel">Room Level</label>
+                            <label for="inputRoomLevel" class="col-md-3 col-form-label" data-i18n="common:roomLevel">Room Level</label>
                             <div class="col-md">
                                 <div class="input-group">
-                                    <input type="number" id="inputRoomLevel" class="form-control" value="100" min="20"
-                                        max="400" required />
+                                    <input type="number" id="inputRoomLevel" class="form-control" value="100" min="20" max="400" required />
                                     <span class="input-group-text" data-i18n="leaderboardPanel.level">level</span>
                                 </div>
                             </div>
@@ -1831,21 +1990,15 @@
                                     <h6 data-i18n="common:selectPlayer">Select Players</h6>
                                     <div class="form-check">
                                         <input class="form-check-input player-checkbox" type="checkbox" id="player1">
-                                        <label class="form-check-label" for="player1">
-                                            Player 1
-                                        </label>
+                                        <label class="form-check-label" for="player1">Player 1</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input player-checkbox" type="checkbox" id="player2">
-                                        <label class="form-check-label" for="player2">
-                                            Player 2
-                                        </label>
+                                        <label class="form-check-label" for="player2">Player 2</label>
                                     </div>
                                     <div class="form-check">
                                         <input class="form-check-input player-checkbox" type="checkbox" id="player3">
-                                        <label class="form-check-label" for="player3">
-                                            Player 3
-                                        </label>
+                                        <label class="form-check-label" for="player3">Player 3</label>
                                     </div>
                                 </div>
                             </div>
@@ -1854,39 +2007,23 @@
                                     <h6 class="text-md-end" data-i18n="common:simulationSettings">Simulation Settings</h6>
                                     <div class="form-check form-check-reverse">
                                         <input class="form-check-input" type="checkbox" value="" id="simAllZoneToggle">
-                                        <label class="form-check-label" for="simAllZoneToggle"
-                                            data-i18n="common:simAllZones">
-                                            Sim All Zones
-                                        </label>
+                                        <label class="form-check-label" for="simAllZoneToggle" data-i18n="common:simAllZones">Sim All Zones</label>
                                     </div>
                                     <div class="form-check form-check-reverse">
                                         <input class="form-check-input" type="checkbox" value="" id="simAllSoloToggle">
-                                        <label class="form-check-label" for="simAllSoloToggle"
-                                            data-i18n="common:simAllSolos">
-                                            Sim All Solos
-                                        </label>
+                                        <label class="form-check-label" for="simAllSoloToggle" data-i18n="common:simAllSolos">Sim All Solos</label>
                                     </div>
                                     <div class="form-check form-check-reverse">
                                         <input class="form-check-input" type="checkbox" value="" id="simDungeonToggle">
-                                        <label class="form-check-label" for="simDungeonToggle"
-                                            data-i18n="common:simDungeon">
-                                            Sim Dungeon
-                                        </label>
+                                        <label class="form-check-label" for="simDungeonToggle" data-i18n="common:simDungeon">Sim Dungeon</label>
                                     </div>
                                     <div class="form-check form-check-reverse">
                                         <input class="form-check-input" type="checkbox" value="" id="simLabyrinthToggle">
-                                        <label class="form-check-label" for="simLabyrinthToggle"
-                                            data-i18n="common:simLabyrinth">
-                                            Sim Labyrinth
-                                        </label>
+                                        <label class="form-check-label" for="simLabyrinthToggle" data-i18n="common:simLabyrinth">Sim Labyrinth</label>
                                     </div>
                                     <div class="form-check form-check-reverse">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="simAllLabyrinthsToggle">
-                                        <label class="form-check-label" for="simAllLabyrinthsToggle"
-                                            data-i18n="common:simAllLabyrinths">
-                                            Sim All Labyrinths
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" value="" id="simAllLabyrinthsToggle">
+                                        <label class="form-check-label" for="simAllLabyrinthsToggle" data-i18n="common:simAllLabyrinths">Sim All Labyrinths</label>
                                     </div>
                                 </div>
                             </div>
@@ -1894,23 +2031,19 @@
                                 <div id="extraBuffCheckBox" class="outlined-box p-3">
                                     <div class="form-check form-switch mb-1">
                                         <input class="form-check-input" type="checkbox" id="mooPassToggle">
-                                        <label class="form-check-label" for="mooPassToggle"
-                                            data-i18n="cowbellStorePanel.mooPass">哞卡</label>
+                                        <label class="form-check-label" for="mooPassToggle" data-i18n="cowbellStorePanel.mooPass">哞卡</label>
                                     </div>
                                     <div class="row g-2 align-items-center mb-1">
                                         <div class="col-md-7">
                                             <div class="form-check form-switch mb-0">
                                                 <input class="form-check-input" type="checkbox" id="comExpToggle">
-                                                <label class="form-check-label" for="comExpToggle"
-                                                    data-i18n="communityBuffTypeNames./community_buff_types/experience">经验</label>
+                                                <label class="form-check-label" for="comExpToggle" data-i18n="communityBuffTypeNames./community_buff_types/experience">经验</label>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <div class="input-group">
-                                                <input type="number" class="form-control" id="comExpInput" min="1"
-                                                    max="20" value="20" required>
-                                                <span class="input-group-text"
-                                                    data-i18n="leaderboardPanel.level">等级</span>
+                                                <input type="number" class="form-control" id="comExpInput" min="1" max="20" value="20" required>
+                                                <span class="input-group-text" data-i18n="leaderboardPanel.level">等级</span>
                                             </div>
                                         </div>
                                     </div>
@@ -1918,25 +2051,20 @@
                                         <div class="col-md-7">
                                             <div class="form-check form-switch mb-0">
                                                 <input class="form-check-input" type="checkbox" id="comDropToggle">
-                                                <label class="form-check-label" for="comDropToggle"
-                                                    data-i18n="communityBuffTypeNames./community_buff_types/combat_drop_quantity">战斗掉落数量</label>
+                                                <label class="form-check-label" for="comDropToggle" data-i18n="communityBuffTypeNames./community_buff_types/combat_drop_quantity">战斗掉落数量</label>
                                             </div>
                                         </div>
                                         <div class="col-auto">
                                             <div class="input-group">
-                                                <input type="number" class="form-control" id="comDropInput" min="1"
-                                                    max="20" value="20" required>
-                                                <span class="input-group-text"
-                                                    data-i18n="leaderboardPanel.level">等级</span>
+                                                <input type="number" class="form-control" id="comDropInput" min="1" max="20" value="20" required>
+                                                <span class="input-group-text" data-i18n="leaderboardPanel.level">等级</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-check form-switch mb-1">
                                         <input class="form-check-input" type="checkbox" id="personalBuffsToggle">
-                                        <label class="form-check-label" for="personalBuffsToggle"
-                                            data-i18n="personalBuffs.title">Personal Buffs</label>
-                                        <div id="personalBuffsBox" class="d-none">
-                                        </div>
+                                        <label class="form-check-label" for="personalBuffsToggle" data-i18n="personalBuffs.title">Personal Buffs</label>
+                                        <div id="personalBuffsBox" class="d-none"></div>
                                     </div>
                                 </div>
                             </div>
@@ -1944,22 +2072,18 @@
                                 <div id="labyrinthSupplyItemsBox" class="outlined-box d-none">
                                     <h6 data-i18n="labyrinthPanel.crates">Crates</h6>
                                     <div class="row mb-1">
-                                        <label for="selectCoffeeCrates" class="col-md-4 col-form-label"
-                                            data-i18n="labyrinthPanel.coffeeCrate">CoffeeCrates</label>
+                                        <label for="selectCoffeeCrates" class="col-md-4 col-form-label" data-i18n="labyrinthPanel.coffeeCrate">CoffeeCrates</label>
                                         <div class="col-md">
                                             <select id="selectCoffeeCrates" class="form-select">
-                                                <option value="" data-i18n="characterSelectPage.slots.empty">Empty
-                                                </option>
+                                                <option value="" data-i18n="characterSelectPage.slots.empty">Empty</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="row mb-1">
-                                        <label for="selectFoodCrates" class="col-md-4 col-form-label"
-                                            data-i18n="labyrinthPanel.foodCrate">FoodCrates</label>
+                                        <label for="selectFoodCrates" class="col-md-4 col-form-label" data-i18n="labyrinthPanel.foodCrate">FoodCrates</label>
                                         <div class="col-md">
                                             <select id="selectFoodCrates" class="form-select">
-                                                <option value="" data-i18n="characterSelectPage.slots.empty">Empty
-                                                </option>
+                                                <option value="" data-i18n="characterSelectPage.slots.empty">Empty</option>
                                             </select>
                                         </div>
                                     </div>
@@ -1970,10 +2094,7 @@
                                     <h6 data-i18n="party.selectZone">Select Zones</h6>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="checkAllZones">
-                                        <label class="form-check-label fw-bold" for="checkAllZones"
-                                            data-i18n="common:selectAllOrNot">
-                                            Select All
-                                        </label>
+                                        <label class="form-check-label fw-bold" for="checkAllZones" data-i18n="common:selectAllOrNot">Select All</label>
                                     </div>
                                 </div>
                             </div>
@@ -1982,10 +2103,7 @@
                                     <h6 data-i18n="common:selectSolo">Select Solos</h6>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="checkAllSolos">
-                                        <label class="form-check-label fw-bold" for="checkAllSolos"
-                                            data-i18n="common:selectAllOrNot">
-                                            Select All
-                                        </label>
+                                        <label class="form-check-label fw-bold" for="checkAllSolos" data-i18n="common:selectAllOrNot">Select All</label>
                                     </div>
                                 </div>
                             </div>
@@ -1993,26 +2111,20 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="buttonStartSimulation" data-bs-dismiss="modal"
-                        data-i18n="common:controls.startSimulation">Start Simulation</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-primary" id="buttonStartSimulation" data-bs-dismiss="modal" data-i18n="common:controls.startSimulation">Start Simulation</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
-        <!-- #endregion -->
     </div>
 
     <div class="modal" id="allSimsModal" tabindex="-1">
-        <!-- #region Start Simulation Modal -->
         <div class="modal-dialog" style="width: 100%; max-width: 1800px;">
             <div class="modal-content">
                 <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center;">
-                    <h5 class="modal-title" style="margin: 0;" data-i18n="common:simulateAllZonesResults">Simulate All
-                        Zones Results</h5>
+                    <h5 class="modal-title" style="margin: 0;" data-i18n="common:simulateAllZonesResults">Simulate All Zones Results</h5>
                     <div style="display: flex; gap: 10px;">
-                        <button type="button" class="btn btn-primary" id="buttonExportResults"
-                            data-bs-dismiss="modal" data-i18n="common:exportToCSV">Export To CSV</button>
+                        <button type="button" class="btn btn-primary" id="buttonExportResults" data-bs-dismiss="modal" data-i18n="common:exportToCSV">Export To CSV</button>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                 </div>
@@ -2038,23 +2150,18 @@
                                 <th data-i18n="common:noRNGProfit">noRngProfit</th>
                             </tr>
                         </thead>
-                        <tbody>
-                        </tbody>
+                        <tbody></tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="buttonExportResults" data-bs-dismiss="modal"
-                        data-i18n="common:exportToCSV">Export To CSV</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-primary" id="buttonExportResults" data-bs-dismiss="modal" data-i18n="common:exportToCSV">Export To CSV</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
-        <!-- #endregion -->
     </div>
 
     <div class="modal" id="errorModal" tabindex="-1">
-        <!-- #region Error Modal -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2067,16 +2174,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" id="buttonCopyError">Copy to clipboard</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
-        <!-- #endregion -->
     </div>
 
     <div class="modal" id="importExportModal" tabindex="-1">
-        <!-- #region Import / Export Modal -->
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -2086,49 +2190,34 @@
                 <div class="modal-body">
                     <ul class="nav nav-tabs" id="importTab" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active" id="group-combat-tab" data-bs-toggle="tab" href="#group-combat"
-                                role="tab" aria-controls="group-combat" aria-selected="true"
-                                data-i18n="common:groupCombat">Group Combat</a>
+                            <a class="nav-link active" id="group-combat-tab" data-bs-toggle="tab" href="#group-combat" role="tab" aria-controls="group-combat" aria-selected="true" data-i18n="common:groupCombat">Group Combat</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" id="solo-tab" data-bs-toggle="tab" href="#solo" role="tab"
-                                aria-controls="solo" aria-selected="false" data-i18n="common:solo">Solo</a>
+                            <a class="nav-link" id="solo-tab" data-bs-toggle="tab" href="#solo" role="tab" aria-controls="solo" aria-selected="false" data-i18n="common:solo">Solo</a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="group-combat" role="tabpanel"
-                            aria-labelledby="group-combat-tab">
-                            <input type="text" id="inputSetGroupCombatAll" class="form-control mt-2"
-                                placeholder="All players import" />
+                        <div class="tab-pane fade show active" id="group-combat" role="tabpanel" aria-labelledby="group-combat-tab">
+                            <input type="text" id="inputSetGroupCombatAll" class="form-control mt-2" placeholder="All players import" />
                             <p style="margin: 0; text-align: center;" data-i18n="common:or">OR</p>
-                            <input type="text" id="inputSetGroupCombatplayer1" class="form-control mt-2"
-                                placeholder="Player 1 import" />
-                            <input type="text" id="inputSetGroupCombatplayer2" class="form-control mt-2"
-                                placeholder="Player 2 import" />
-                            <input type="text" id="inputSetGroupCombatplayer3" class="form-control mt-2"
-                                placeholder="Player 3 import" />
-                            <input type="text" id="inputSetGroupCombatplayer4" class="form-control mt-2"
-                                placeholder="Player 4 import" />
-                            <input type="text" id="inputSetGroupCombatplayer5" class="form-control mt-2"
-                                placeholder="Player 5 import" />
+                            <input type="text" id="inputSetGroupCombatplayer1" class="form-control mt-2" placeholder="Player 1 import" />
+                            <input type="text" id="inputSetGroupCombatplayer2" class="form-control mt-2" placeholder="Player 2 import" />
+                            <input type="text" id="inputSetGroupCombatplayer3" class="form-control mt-2" placeholder="Player 3 import" />
+                            <input type="text" id="inputSetGroupCombatplayer4" class="form-control mt-2" placeholder="Player 4 import" />
+                            <input type="text" id="inputSetGroupCombatplayer5" class="form-control mt-2" placeholder="Player 5 import" />
                         </div>
                         <div class="tab-pane fade" id="solo" role="tabpanel" aria-labelledby="solo-tab">
-                            <input type="text" id="inputSetSolo" class="form-control mt-2"
-                                placeholder="Import set here for Solo" />
+                            <input type="text" id="inputSetSolo" class="form-control mt-2" placeholder="Import set here for Solo" />
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="buttonImportSet"
-                        data-i18n="common:import">Import</button>
-                    <button type="button" class="btn btn-primary" id="buttonExportSet"
-                        data-i18n="common:exportGroupSolo">Export Group/Solo</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-primary" id="buttonImportSet" data-i18n="common:import">Import</button>
+                    <button type="button" class="btn btn-primary" id="buttonExportSet" data-i18n="common:exportGroupSolo">Export Group/Solo</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
-        <!-- endregion -->
     </div>
 
     <div class="modal fade" id="WipeEventsModal" tabindex="-1" aria-hidden="true">
@@ -2142,8 +2231,7 @@
                     <div class="container-fluid">
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="wipeEventSelector" class="form-label"
-                                    data-i18n="common:selectWipeEvent">Select Wipe Event</label>
+                                <label for="wipeEventSelector" class="form-label" data-i18n="common:selectWipeEvent">Select Wipe Event</label>
                                 <select class="form-select" id="wipeEventSelector">
                                     <option value="-1" data-i18n="common:noWipeEvents">No Wipe Events</option>
                                 </select>
@@ -2160,8 +2248,7 @@
                                 <div class="card">
                                     <div class="card-header" data-i18n="common:combatLogs">Combat Logs</div>
                                     <div class="card-body">
-                                        <div id="wipeLogsContainer" class="wipe-logs-container">
-                                        </div>
+                                        <div id="wipeLogsContainer" class="wipe-logs-container"></div>
                                     </div>
                                 </div>
                             </div>
@@ -2169,8 +2256,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
@@ -2195,14 +2281,12 @@
                                         <input type="file" id="inputUploadJSONSimulation" class="form-control" />
                                     </div>
                                     <div class="col-md-auto">
-                                        <button id="buttonUploadJSONSimulate" class="btn btn-primary" type="button"
-                                            data-i18n="common:Experiment.uploadAndRun" disabled>
+                                        <button id="buttonUploadJSONSimulate" class="btn btn-primary" type="button" data-i18n="common:Experiment.uploadAndRun" disabled>
                                             Upload&Run
                                         </button>
                                     </div>
                                     <div class="col-md-auto">
-                                        <button id="buttonDownloadResults" class="btn btn-primary" type="button"
-                                            data-i18n="common:Experiment.download" disabled>
+                                        <button id="buttonDownloadResults" class="btn btn-primary" type="button" data-i18n="common:Experiment.download" disabled>
                                             Download Results
                                         </button>
                                     </div>
@@ -2237,8 +2321,7 @@
                                         <div class="col-md-auto">
                                             <div class="form-check form-switch mb-0">
                                                 <input class="form-check-input" type="checkbox" id="hpMpVisualizationToggle">
-                                                <label class="form-check-label" for="hpMpVisualizationToggle"
-                                                    data-i18n="common:Experiment.enableHpMpVisualization">启用 HP/MP 变化折线图</label>
+                                                <label class="form-check-label" for="hpMpVisualizationToggle" data-i18n="common:Experiment.enableHpMpVisualization">启用 HP/MP 变化折线图</label>
                                             </div>
                                         </div>
                                     </div>
@@ -2248,8 +2331,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
@@ -2264,13 +2346,11 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <div class="row" id="patchNotes">
-                        </div>
+                        <div class="row" id="patchNotes"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
@@ -2335,8 +2415,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
@@ -2355,8 +2434,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
@@ -2375,12 +2453,107 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        data-i18n="common:controls.close">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-i18n="common:controls.close">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            let switchedToZh = false;
+
+            function hideLanguageButtons() {
+                const elements = Array.from(document.querySelectorAll('button, a, span, div'));
+                let zhBtn = null;
+                let enBtn = null;
+
+                elements.forEach(el => {
+                    const txt = (el.textContent || '').trim();
+                    if (!zhBtn && txt === '中文') zhBtn = el;
+                    if (!enBtn && txt === 'English') enBtn = el;
+                });
+
+                if (zhBtn && !switchedToZh) {
+                    switchedToZh = true;
+                    try { zhBtn.click(); } catch (e) { }
+                }
+
+                [zhBtn, enBtn].forEach(el => {
+                    if (el) el.style.display = 'none';
+                });
+
+                if (zhBtn && enBtn && zhBtn.parentElement && zhBtn.parentElement === enBtn.parentElement) {
+                    const p = zhBtn.parentElement;
+                    const txt = (p.textContent || '').replace(/\s/g, '');
+                    if (txt === 'English中文' || txt === '中文English') {
+                        p.style.display = 'none';
+                    }
+                }
+            }
+
+            function markMobileRows() {
+                const pairSelectors = [
+                    '#simulationResultKills',
+                    '#simulationBossTime',
+                    '#simulationResultPlayerDeaths',
+                    '#simulationResultExperienceGain',
+                    '#simulationHpSpent',
+                    '#simulationResultConsumablesUsed',
+                    '#simulationResultManaUsed',
+                    '#simulationResultHealthRestored',
+                    '#simulationResultManaRestored',
+                    '#simulationResultDrops'
+                ];
+
+                pairSelectors.forEach(selector => {
+                    const container = document.querySelector(selector);
+                    if (!container) return;
+                    Array.from(container.children).forEach(child => {
+                        if (child.nodeType === 1) child.classList.add('mobile-pair-row');
+                    });
+                });
+
+                ['#simulationResultTotalDamageDone', '#simulationResultTotalDamageTaken'].forEach(selector => {
+                    const container = document.querySelector(selector);
+                    if (!container) return;
+                    Array.from(container.children).forEach(child => {
+                        if (child.nodeType === 1) child.classList.add('mobile-damage-row');
+                    });
+                });
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                hideLanguageButtons();
+                markMobileRows();
+
+                const observer = new MutationObserver(function () {
+                    hideLanguageButtons();
+                    markMobileRows();
+                });
+
+                observer.observe(document.body, {
+                    childList: true,
+                    subtree: true
+                });
+
+                setTimeout(() => {
+                    hideLanguageButtons();
+                    markMobileRows();
+                }, 500);
+
+                setTimeout(() => {
+                    hideLanguageButtons();
+                    markMobileRows();
+                }, 1500);
+
+                setTimeout(() => {
+                    hideLanguageButtons();
+                    markMobileRows();
+                }, 3000);
+            });
+        })();
+    </script>
 
     <script src="js/i18n.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.bundle.min.js"

@@ -699,6 +699,62 @@
                 padding-right: 0;
             }
         }
+        /* ===== 模拟配置弹窗专用优化（新增，不替换） ===== */
+@media (max-width: 430px) {
+
+    /* 1️⃣ 控件整体压缩（只影响弹窗） */
+    .modal-body input,
+    .modal-body select,
+    .modal-body .form-control,
+    .modal-body .form-select {
+        height: 34px !important;
+        padding: 2px 8px !important;
+        font-size: 14px !important;
+    }
+
+    .modal-body .btn {
+        min-height: 34px !important;
+        font-size: 14px !important;
+        padding: 2px 8px !important;
+    }
+
+    /* 2️⃣ label压缩 */
+    .modal-body label {
+        font-size: 12px !important;
+        margin-bottom: 2px !important;
+    }
+
+    /* 3️⃣ 每个区块更紧凑 */
+    .modal-body .mobile-details {
+        padding: 6px 8px;
+        margin-bottom: 8px;
+    }
+
+    /* 4️⃣ checkbox 区域变2列（模拟配置那一块） */
+    .modal-body .mobile-details div {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px 8px;
+    }
+
+    /* 5️⃣ 玩家选择压缩 */
+    .modal-body #playerSelection {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+    }
+
+    /* 6️⃣ 输入+单位（等级）压缩 */
+    .modal-body .input-group {
+        height: 34px;
+    }
+
+    .modal-body .input-group-text {
+        padding: 2px 6px;
+        font-size: 12px;
+    }
+
+}
     </style>
 
     <meta charset="utf-8" />

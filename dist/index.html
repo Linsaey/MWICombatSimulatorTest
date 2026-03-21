@@ -699,6 +699,27 @@
                 padding-right: 0;
             }
         }
+        @media (max-width: 420px) {
+    #equipmentSetsModal #equipmentSetList .row {
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        --bs-gutter-x: 0.25rem !important;
+    }
+
+    #equipmentSetsModal #equipmentSetList .btn {
+        white-space: nowrap !important;
+        font-size: 0.85rem;
+        padding-left: 0.4rem;
+        padding-right: 0.4rem;
+    }
+
+    #equipmentSetsModal #equipmentSetList .col-auto,
+    #equipmentSetsModal #equipmentSetList .col-md-auto {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        max-width: none !important;
+    }
+}
     </style>
 
     <meta charset="utf-8" />

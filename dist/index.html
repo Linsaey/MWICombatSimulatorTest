@@ -720,6 +720,40 @@
         max-width: none !important;
     }
 }
+        @media (max-width: 390px) {
+    /* 哞卡、个人增益：强制单行 */
+    #extraBuffCheckBox > .form-check {
+        white-space: nowrap;
+    }
+
+    /* 经验 / 战斗掉落数量 这两行：改成同一行显示 */
+    #extraBuffCheckBox > .row {
+        --bs-gutter-x: 0.25rem;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    /* 左边开关+文字 */
+    #extraBuffCheckBox > .row > .col-md-7 {
+        flex: 0 0 62%;
+        max-width: 62%;
+    }
+
+    /* 右边等级输入框 */
+    #extraBuffCheckBox > .row > .col-auto {
+        flex: 0 0 38%;
+        max-width: 38%;
+    }
+
+    #extraBuffCheckBox > .row .form-check-label {
+        white-space: nowrap;
+    }
+
+    #extraBuffCheckBox > .row .input-group {
+        width: 100%;
+        margin-bottom: 0;
+    }
+}
     </style>
 
     <meta charset="utf-8" />

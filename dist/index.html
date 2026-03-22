@@ -720,38 +720,41 @@
         max-width: none !important;
     }
 }
-        @media (max-width: 390px) {
+        @media (max-width: 420px) {
     /* 哞卡、个人增益：强制单行 */
-    #extraBuffCheckBox > .form-check {
-        white-space: nowrap;
+    #extraBuffCheckBox .form-check {
+        white-space: nowrap !important;
     }
 
     /* 经验 / 战斗掉落数量 这两行：改成同一行显示 */
-    #extraBuffCheckBox > .row {
-        --bs-gutter-x: 0.25rem;
-        flex-wrap: nowrap;
-        align-items: center;
+    #extraBuffCheckBox .row.g-2 {
+        flex-wrap: nowrap !important;
+        align-items: center !important;
+        --bs-gutter-x: 0.25rem !important;
+        margin-bottom: 0.25rem !important;
     }
 
     /* 左边开关+文字 */
-    #extraBuffCheckBox > .row > .col-md-7 {
-        flex: 0 0 62%;
-        max-width: 62%;
+    #extraBuffCheckBox .row.g-2 > .col-md-7 {
+        flex: 0 0 60% !important;
+        max-width: 60% !important;
+        width: 60% !important;
     }
 
     /* 右边等级输入框 */
-    #extraBuffCheckBox > .row > .col-auto {
-        flex: 0 0 38%;
-        max-width: 38%;
+    #extraBuffCheckBox .row.g-2 > .col-auto {
+        flex: 0 0 40% !important;
+        max-width: 40% !important;
+        width: 40% !important;
     }
 
-    #extraBuffCheckBox > .row .form-check-label {
-        white-space: nowrap;
+    #extraBuffCheckBox .form-check-label {
+        white-space: nowrap !important;
     }
 
-    #extraBuffCheckBox > .row .input-group {
-        width: 100%;
-        margin-bottom: 0;
+    #extraBuffCheckBox .input-group {
+        width: 100% !important;
+        margin-bottom: 0 !important;
     }
 }
     </style>

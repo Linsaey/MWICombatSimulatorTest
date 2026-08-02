@@ -718,6 +718,33 @@ function initAbilitiesSection() {
 
         selectElement.addEventListener("change", abilitySelectHandler);
     }
+
+    document.getElementById('abilityOrderSwitch').addEventListener('change', function() {
+            const gear = document.getElementById('gearLabel');
+            const arrow = document.getElementById('arrowLabel');
+            
+            if (this.checked) {
+                gear.classList.remove('text-primary', 'fw-bold');
+                gear.classList.add('text-secondary');
+                
+                arrow.classList.remove('text-secondary');
+                arrow.classList.add('text-primary', 'fw-bold');
+            } else {
+                gear.classList.remove('text-secondary');
+                gear.classList.add('text-primary', 'fw-bold');
+                
+                arrow.classList.remove('text-primary', 'fw-bold');
+                arrow.classList.add('text-secondary');
+            }
+
+            for (let i = 0; i < 5; i++) {
+                let triggerButton = document.getElementById("buttonAbilityTrigger_" + i);
+                triggerButton.parentElement.style.display = this.checked ? 'none' : 'block';
+                let moveButton = document.getElementById("selectAbilityMoveUp_" + i);
+                moveButton.parentElement.style.display = this.checked ? 'block' : 'none';
+            }
+        });
+
 }
 
 function abilitySelectHandler() {
@@ -2055,6 +2082,12 @@ function showKills(simResult, playerToDisplay) {
     let newNoRngDropChildren = [];
 
     let hoursSimulated = simResult.simulatedTime / ONE_HOUR;
+    if (simResult.isDungeon && simResult.lastDungeonFinishTime > 0) {
+        hoursSimulated = simResult.lastDungeonFinishTime / ONE_HOUR;
+    } else if (simResult.lastEncounterFinishTime > 0) {
+        hoursSimulated = simResult.lastEncounterFinishTime / ONE_HOUR;
+    }
+
     let encountersPerHour = 0;
     let encountersRow = null;
     if (simResult.isDungeon) {
@@ -2069,12 +2102,8 @@ function showKills(simResult, playerToDisplay) {
             failedDungeonsRow.firstElementChild.setAttribute("data-i18n", "common:simulationResults.dungeonsFailed");
             newChildren.push(failedDungeonsRow);
         }
-        // 使用最后一轮完成时间来计算平均时间，避免未完成轮次的时间被计入
-        let dungeonHoursSimulated = simResult.lastDungeonFinishTime > 0 
-            ? simResult.lastDungeonFinishTime / ONE_HOUR 
-            : hoursSimulated;
-        encountersPerHour = (simResult.dungeonsCompleted / dungeonHoursSimulated).toFixed(1);
-        let averageTime = (dungeonHoursSimulated * 60 / simResult.dungeonsCompleted).toFixed(1);
+        encountersPerHour = (simResult.dungeonsCompleted / hoursSimulated).toFixed(1);
+        let averageTime = (hoursSimulated * 60 / simResult.dungeonsCompleted).toFixed(1);
         encountersRow = createRow(["col-md-6", "col-md-6 text-end"], ["Average Time", averageTime]);
         encountersRow.firstElementChild.setAttribute("data-i18n", "common:simulationResults.averageTime");
         if (simResult.minDungenonTime > 0) {
@@ -2090,13 +2119,19 @@ function showKills(simResult, playerToDisplay) {
             newChildren.push(maximumTimeRow);
         }
     } else {
-        // 使用最后一场战斗完成时间来计算，避免未完成战斗的时间被计入
-        let encounterHoursSimulated = simResult.lastEncounterFinishTime > 0 
-            ? simResult.lastEncounterFinishTime / ONE_HOUR 
-            : hoursSimulated;
-        encountersPerHour = (simResult.encounters / encounterHoursSimulated).toFixed(1);
+        encountersPerHour = (simResult.encounters / hoursSimulated).toFixed(1); 
         encountersRow = createRow(["col-md-6", "col-md-6 text-end"], ["Encounters", encountersPerHour]);
         encountersRow.firstElementChild.setAttribute("data-i18n", "common:simulationResults.encounters");
+    }
+
+    if (simResult.labyAttemptCount > 0) {
+        let labyAttemptCountRow = createRow(["col-md-6", "col-md-6 text-end"], ["Labyrinth Attempt Count", (simResult.labyAttemptCount / hoursSimulated).toFixed(1)]);
+        labyAttemptCountRow.firstElementChild.setAttribute("data-i18n", "common:simulationResults.labyAttemptCount");
+        newChildren.push(labyAttemptCountRow);
+
+        let labySuccessRateRow = createRow(["col-md-6", "col-md-6 text-end"], ["Labyrinth Success Rate", (simResult.encounters / simResult.labyAttemptCount * 100).toFixed(1) + "%"]);
+        labySuccessRateRow.firstElementChild.setAttribute("data-i18n", "common:simulationResults.labySuccessRate");
+        newChildren.push(labySuccessRateRow);
     }
 
     if (simResult.maxEnrageStack > 0) {
@@ -2807,34 +2842,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const simDungeonToggle = document.getElementById('simDungeonToggle');
     const playerContainer = document.getElementById('playerCheckBox');
 
+    const player4Input = document.getElementById('player4');
+    const player5Input = document.getElementById('player5');
+
     function addPlayers() {
-        const player4 = document.createElement('div');
-        player4.classList.add('form-check');
-        player4.innerHTML = `
-            <input class="form-check-input player-checkbox" type="checkbox" id="player4">
-            <label class="form-check-label" for="player4">
-                Player 4
-            </label>
-        `;
-
-        const player5 = document.createElement('div');
-        player5.classList.add('form-check');
-        player5.innerHTML = `
-            <input class="form-check-input player-checkbox" type="checkbox" id="player5">
-            <label class="form-check-label" for="player5">
-                Player 5
-            </label>
-        `;
-
-        playerContainer.appendChild(player4);
-        playerContainer.appendChild(player5);
+        player4Input.parentElement.style.display = 'block';
+        player5Input.parentElement.style.display = 'block';
     }
 
     function removePlayers() {
-        const player4 = document.getElementById('player4');
-        const player5 = document.getElementById('player5');
-        if (player4) player4.parentElement.remove();
-        if (player5) player5.parentElement.remove();
+        player4Input.parentElement.style.display = 'none';
+        player5Input.parentElement.style.display = 'none';
     }
 
     function updatePlayerNames() {

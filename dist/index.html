@@ -770,30 +770,6 @@
         padding-right: 0 !important;
     }
 }
-@media (max-width: 430px) {
-  /* 外层容器：2列，两个项目并排，平分宽度 */
-  #levelsSection {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important; /* 两格完全平分 */
-    gap: 10px 8px !important; /* 行间距10，列间距8 */
-  }
-
-  /* 每一项：标签 和 输入框，在格子内部也平分，1:1，不要写死百分比 */
-  #levelsSection .level-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important; /* 格子内部：标签占一半，输入框占一半 */
-    gap: 4px !important;
-    margin: 0 !important;
-  }
-
-  #levelsSection .level-row label {
-    margin-bottom: 0 !important;
-    padding: 0 !important;
-  }
-  #levelsSection .level-row input.form-control {
-    width: 100% !important;
-  }
-}
     </style>
 
     <meta charset="utf-8" />

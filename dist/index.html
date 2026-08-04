@@ -1095,11 +1095,18 @@
 
                     <div class="col-md-7" id="abilitiesSection">
                         <div class="row mb-3" id="abilitiesHeaderRow">
-                            <div></div>
-                            <div><b data-i18n="characterManagement.abilities">Abilities</b></div>
-                            <div><b data-i18n="leaderboardPanel.level">Level</b></div>
-                            <div><b>Trigger</b></div>
-                        </div>
+    <div></div>
+    <div><b data-i18n="characterManagement.abilities">Abilities</b></div>
+    <div><b data-i18n="leaderboardPanel.level">Level</b></div>
+    <div>
+        <b>Trigger</b>
+        <span id="gearLabel" class="text-primary fw-bold">⚙</span>
+        <div class="form-check form-switch m-0 d-inline-block">
+            <input class="form-check-input" type="checkbox" id="abilityOrderSwitch">
+        </div>
+        <span id="arrowLabel" class="text-secondary">⇅</span>
+    </div>
+</div>
 
                         <div class="row mb-2 ability-row">
                             <div class="col-md-1">

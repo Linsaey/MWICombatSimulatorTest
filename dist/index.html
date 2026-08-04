@@ -770,6 +770,35 @@
         padding-right: 0 !important;
     }
 }
+        /* 仅手机端 <=430px 等级区域一行两列，桌面完全不变 */
+@media (max-width: 430px) {
+    /* 父容器开启2列网格，自动两个一组并排 */
+    #levelsSection {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px 6px !important;
+    }
+    /* 单个等级行：标签38%，输入框62%，和原有手机比例一致 */
+    #levelsSection .level-row {
+        display: grid !important;
+        grid-template-columns: 38% 62% !important;
+        align-items: center !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 0 !important;
+    }
+    #levelsSection .level-row>label.col-md-6 {
+        flex: unset !important;
+        max-width: unset !important;
+        padding: 0 4px 0 0 !important;
+    }
+    #levelsSection .level-row>.col-md-6 {
+        flex: unset !important;
+        max-width: unset !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
     </style>
 
     <meta charset="utf-8" />

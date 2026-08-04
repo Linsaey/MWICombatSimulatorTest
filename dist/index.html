@@ -757,6 +757,19 @@
         margin-bottom: 0 !important;
     }
 }
+        /* 强制修改等级标签与输入框的间距（移动端） */
+@media (max-width: 430px) {
+    #levelsSection .level-row {
+        margin-bottom: 0.1rem !important;   /* 垂直行距，越小越紧凑 */
+    }
+    #levelsSection .level-row > label.col-md-6 {
+        padding-right: 2px !important;      /* 标签与输入框的水平距离 */
+    }
+    #levelsSection .level-row > .col-md-6 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+}
     </style>
 
     <meta charset="utf-8" />

@@ -698,51 +698,6 @@
                 padding-left: 0;
                 padding-right: 0;
             }
-            @media (max-width: 430px) {
-    /* 原有的样式保持不变，再追加下面这些 */
-
-    /* 将等级区设为两列网格 */
-    #levelsSection {
-        display: grid;
-        grid-template-columns: 1fr 1fr;   /* 两列，均分宽度 */
-        gap: 4px 8px;                    /* 行间距 4px，列间距 8px */
-    }
-
-    /* 每个等级项（原 .row）不再独占一行，而是作为网格中的一个单元格 */
-    #levelsSection .level-row {
-        display: flex;           /* 内部依然用 flex 让标签和输入框在一行 */
-        align-items: center;     /* 垂直居中 */
-        margin: 0 !important;    /* 清除原有的外边距，避免错位 */
-        padding: 0 !important;
-        width: auto !important;  /* 宽度由网格自动分配 */
-        max-width: 100% !important;
-    }
-
-    /* 覆盖之前固定宽度，让标签自适应 */
-    #levelsSection .level-row>label.col-md-6 {
-        flex: 0 0 auto !important;   /* 宽度自动，由文字撑开 */
-        max-width: none !important;
-        padding: 0 4px 0 0 !important; /* 右边留一点间距 */
-        width: auto !important;
-        font-size: 13px;              /* 可适当调小字号，让两列能容纳 */
-    }
-
-    /* 输入框容器占据剩余空间 */
-    #levelsSection .level-row>.col-md-6 {
-        flex: 1 1 auto !important;   /* 弹性伸缩，占满剩余宽度 */
-        max-width: none !important;
-        padding: 0 !important;
-        width: auto !important;
-    }
-
-    /* 输入框本身宽度填满容器 */
-    #levelsSection .level-row .form-control {
-        width: 100% !important;
-        min-width: 0 !important;
-        font-size: 13px !important;   /* 与标签字号一致 */
-        padding: 2px 4px !important;  /* 内边距调小，更紧凑 */
-    }
-}
         }
         @media (max-width: 420px) {
     #equipmentSetsModal #equipmentSetList .row {

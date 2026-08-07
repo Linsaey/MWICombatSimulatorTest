@@ -511,11 +511,9 @@
 
             /* 三个主按钮并列：本地导入 / 模拟装备方案 / 导入导出 */
             #secondaryControlsRow {
-                display: grid;
-                grid-template-columns: 1.35fr 1.1fr 1fr;
+                display: flex !important;
+                align-items: center;
                 gap: 8px;
-                margin-left: 0;
-                margin-right: 0;
             }
 
             #secondaryControlsRow>* {
@@ -697,6 +695,94 @@
                 text-align: right;
                 padding-left: 0;
                 padding-right: 0;
+            }
+        }
+
+        /* ===== 手机端等级+按钮两列布局 ===== */
+        @media (max-width: 430px) {
+            /* 隐藏原始等级行（改用 JS 移动后的布局） */
+            #levelsSection .level-row {
+                display: none !important;
+            }
+            /* 隐藏房屋成就行 */
+            #houseAchievementRow {
+                display: none !important;
+            }
+            /* 隐藏价格设置区域（手机端不显示） */
+            #levelsSection b[data-i18n="common:priceSettings.title"],
+            #priceSettingsCompactRow {
+                display: none !important;
+            }
+            /* 隐藏食物区的操作按钮行 */
+            #priceActionRow,
+            #logActionRow {
+                display: none !important;
+            }
+
+            /* 等级+按钮 两列容器 */
+            #mobileLevelButtonGrid {
+                display: flex !important;
+                gap: 8px;
+                margin-bottom: 12px;
+            }
+            /* 左列：等级输入框 */
+            #mobileLevelButtonGrid .level-col {
+                flex: 1.2;
+                min-width: 0;
+            }
+            #mobileLevelButtonGrid .level-col .level-row {
+                display: grid !important;
+                grid-template-columns: 55% 45%;
+                align-items: center;
+                margin-bottom: 6px !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            #mobileLevelButtonGrid .level-col .level-row > label,
+            #mobileLevelButtonGrid .level-col .level-row > div {
+                flex: none !important;
+                width: auto !important;
+                max-width: none !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            #mobileLevelButtonGrid .level-col .level-row > label {
+                font-size: 12px;
+                padding-right: 4px;
+            }
+            #mobileLevelButtonGrid .level-col .level-row .form-control {
+                width: 100%;
+                height: 36px;
+                font-size: 14px;
+                padding: 4px 8px;
+            }
+            /* 右列：8个按钮 */
+            #mobileLevelButtonGrid .button-col {
+                flex: 1;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            /* 移入的按钮样式 */
+            #mobileLevelButtonGrid .btn-mobile-grid {
+                width: 100% !important;
+                height: 36px;
+                font-size: 11px;
+                padding: 4px 6px;
+                line-height: 1.2;
+                white-space: normal;
+                word-break: break-word;
+                margin-bottom: 6px;
+            }
+            #mobileLevelButtonGrid .btn-mobile-grid:last-child {
+                margin-bottom: 0;
+            }
+            /* 隐藏按钮原来的父容器（按钮已被 JS 移走，容器为空） */
+            #houseAchievementRow,
+            #priceActionRow,
+            #logActionRow {
+                display: none !important;
             }
         }
         @media (max-width: 420px) {
@@ -890,6 +976,47 @@
                             </div>
                         </div>
 
+                        <!-- 手机端专用：等级+按钮 两列布局 -->
+                        <div id="mobileLevelButtonGrid" class="d-none">
+                            <div class="level-col">
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_combat" class="col-md-6 col-form-label" data-i18n="actionTypeNames./action_types/combat">Combat</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_combat_mobile" class="form-control" value="1" min="1" max="400" required disabled /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_stamina" class="col-md-6 col-form-label" data-i18n="skillNames./skills/stamina">Stamina</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_stamina_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_intelligence" class="col-md-6 col-form-label" data-i18n="skillNames./skills/intelligence">Intelligence</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_intelligence_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_attack" class="col-md-6 col-form-label" data-i18n="skillNames./skills/attack">Attack</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_attack_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_melee" class="col-md-6 col-form-label" data-i18n="skillNames./skills/melee">Melee</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_melee_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_defense" class="col-md-6 col-form-label" data-i18n="skillNames./skills/defense">Defense</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_defense_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_ranged" class="col-md-6 col-form-label" data-i18n="skillNames./skills/ranged">Ranged</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_ranged_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                                <div class="row mb-2 level-row">
+                                    <label for="inputLevel_magic" class="col-md-6 col-form-label" data-i18n="skillNames./skills/magic">Magic</label>
+                                    <div class="col-md-6"><input type="number" id="inputLevel_magic_mobile" class="form-control" value="1" min="1" max="400" required /></div>
+                                </div>
+                            </div>
+                            <div class="button-col" id="mobileButtonCol">
+                                <!-- 按钮由 JS 从原始位置移入（仅手机端生效） -->
+                            </div>
+                        </div>
+
                         <div class="row mt-2 mb-1">
                             <b data-i18n="common:priceSettings.title">Price Settings</b>
                         </div>
@@ -1076,6 +1203,8 @@
                                 <button id="buttonDrinkTrigger_2" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#triggerModal" data-bs-triggertype="drink" data-bs-triggerindex="2">Trigger</button>
                             </div>
                         </div>
+
+
 
                         <div class="row pt-3" id="priceActionRow">
                             <div class="col-md-auto">
@@ -2183,6 +2312,93 @@
 
             document.addEventListener('DOMContentLoaded', function () {
                 [300, 1000, 2500, 5000].forEach(ms => setTimeout(cleanupUi, ms));
+
+                // 同步等级输入框：原始 <-> 手机端副本
+                var levelFields = ['combat', 'stamina', 'intelligence', 'attack', 'melee', 'defense', 'ranged', 'magic'];
+                levelFields.forEach(function (field) {
+                    var orig = document.getElementById('inputLevel_' + field);
+                    var mob = document.getElementById('inputLevel_' + field + '_mobile');
+                    if (orig && mob) {
+                        orig.addEventListener('input', function () { mob.value = orig.value; });
+                        mob.addEventListener('input', function () { orig.value = mob.value; });
+                    }
+                });
+
+                // 仅在手机端将按钮移入移动端容器（保留所有事件绑定）
+                function setupMobileButtons() {
+                    var isMobile = window.innerWidth <= 430;
+                    var mobileButtonCol = document.getElementById('mobileButtonCol');
+                    if (!mobileButtonCol) return;
+
+                    var buttonIds = [
+                        'buttonHouseRoomsModal', 'buttonAchievementsModal',
+                        'buttonGetPrices', 'buttonEditPrices',
+                        'buttonPatchNotes', 'buttonWipeEvents',
+                        'buttonEquipmentSets', 'buttonImportExport'
+                    ];
+
+                    if (isMobile) {
+                        // 手机端：将按钮移入移动端容器
+                        buttonIds.forEach(function (id) {
+                            var btn = document.getElementById(id);
+                            if (btn && btn.parentElement !== mobileButtonCol) {
+                                btn.classList.add('btn-mobile-grid');
+                                mobileButtonCol.appendChild(btn);
+                            }
+                        });
+                        // 移动后手动触发 i18n 翻译
+                        if (typeof i18next !== 'undefined' && i18next.t) {
+                            buttonIds.forEach(function (id) {
+                                var btn = document.getElementById(id);
+                                if (btn && btn.dataset.i18n) {
+                                    btn.textContent = i18next.t(btn.dataset.i18n);
+                                }
+                            });
+                        }
+                    } else {
+                        // 电脑端：将按钮移回原始位置
+                        var restoreMap = {
+                            'buttonHouseRoomsModal': 'houseAchievementRow',
+                            'buttonAchievementsModal': 'houseAchievementRow',
+                            'buttonGetPrices': 'priceActionRow',
+                            'buttonEditPrices': 'priceActionRow',
+                            'buttonPatchNotes': 'logActionRow',
+                            'buttonWipeEvents': 'logActionRow',
+                            'buttonEquipmentSets': 'secondaryControlsRow',
+                            'buttonImportExport': 'secondaryControlsRow'
+                        };
+                        buttonIds.forEach(function (id) {
+                            var btn = document.getElementById(id);
+                            var targetId = restoreMap[id];
+                            if (btn && targetId) {
+                                var target = document.getElementById(targetId);
+                                if (target && btn.parentElement !== target) {
+                                    btn.classList.remove('btn-mobile-grid');
+                                    target.appendChild(btn);
+                                }
+                            }
+                        });
+                    }
+                }
+
+                // 监听 i18next 初始化完成事件
+                if (typeof i18next !== 'undefined') {
+                    i18next.on('initialized', function () {
+                        setupMobileButtons();
+                    });
+                    // 如果 i18next 已经初始化完成，直接执行
+                    if (i18next.isInitialized) {
+                        setupMobileButtons();
+                    }
+                } else {
+                    // 如果 i18next 还没加载，延迟执行
+                    setTimeout(setupMobileButtons, 2000);
+                }
+                // 窗口大小变化时重新调整
+                window.addEventListener('resize', function () {
+                    clearTimeout(window._resizeTimer);
+                    window._resizeTimer = setTimeout(setupMobileButtons, 150);
+                });
             });
         })();
     </script>

@@ -562,8 +562,8 @@
             #simulationResultConsumablesUsed .row,
             #simulationResultDrops .row {
                 display: grid !important;
-                grid-template-columns: minmax(0, 1fr) 56px;
-                gap: 6px;
+                grid-template-columns: auto 56px;
+                gap: 0;
                 align-items: start;
                 margin-bottom: 6px;
             }
@@ -574,8 +574,8 @@
             #simulationResultConsumablesUsed .row>*,
             #simulationResultDrops .row>* {
                 min-width: 0;
-                padding-left: 0 !important;
-                padding-right: 0 !important;
+                padding-left: 4px !important;
+                padding-right: 4px !important;
             }
 
             #simulationResultKills .row>*:last-child,
@@ -782,6 +782,10 @@
             #houseAchievementRow,
             #priceActionRow,
             #logActionRow {
+                display: none !important;
+            }
+            /* 隐藏 presets 和选择框 */
+            #equipmentPresetsRow {
                 display: none !important;
             }
         }
@@ -2310,6 +2314,27 @@
                 moveLocalImportButton();
             }
 
+            // 补丁：拦截 document.querySelector，为导入时缺失的元素返回安全的虚拟元素
+            (function () {
+                var origQuerySelector = document.querySelector.bind(document);
+                document.querySelector = function (selector) {
+                    var result = origQuerySelector(selector);
+                    if (result) return result;
+                    // 为 data-house-hrid 和 data-achievement-hrid 选择器返回虚拟元素
+                    if (selector.indexOf('data-house-hrid=') !== -1 || selector.indexOf('data-achievement-hrid=') !== -1) {
+                        var dummy = document.createElement('input');
+                        dummy.type = 'hidden';
+                        // 缓存虚拟元素，避免重复创建
+                        var cacheKey = '__dummy_' + selector.replace(/[^a-zA-Z0-9]/g, '_');
+                        if (!document[cacheKey]) {
+                            document[cacheKey] = dummy;
+                        }
+                        return document[cacheKey];
+                    }
+                    return result;
+                };
+            })();
+
             document.addEventListener('DOMContentLoaded', function () {
                 [300, 1000, 2500, 5000].forEach(ms => setTimeout(cleanupUi, ms));
 
@@ -2399,6 +2424,49 @@
                     clearTimeout(window._resizeTimer);
                     window._resizeTimer = setTimeout(setupMobileButtons, 150);
                 });
+
+                // 同步等级值：原始输入框 -> 手机端输入框
+                function syncLevelValuesToMobile() {
+                    var levelFields = ['combat', 'stamina', 'intelligence', 'attack', 'melee', 'defense', 'ranged', 'magic'];
+                    levelFields.forEach(function (field) {
+                        var orig = document.getElementById('inputLevel_' + field);
+                        var mob = document.getElementById('inputLevel_' + field + '_mobile');
+                        if (orig && mob) {
+                            mob.value = orig.value;
+                        }
+                    });
+                }
+
+                // 监听导入/导出模态框关闭事件，同步等级值
+                var importExportModal = document.getElementById('importExportModal');
+                if (importExportModal) {
+                    importExportModal.addEventListener('hidden.bs.modal', function () {
+                        // 延迟执行，确保 DOM 已更新
+                        setTimeout(syncLevelValuesToMobile, 100);
+                    });
+                }
+
+                // 使用轮询方式检测原始等级输入框的值变化（处理程序化赋值）
+                var levelFields = ['combat', 'stamina', 'intelligence', 'attack', 'melee', 'defense', 'ranged', 'magic'];
+                var lastValues = {};
+                levelFields.forEach(function (field) {
+                    var orig = document.getElementById('inputLevel_' + field);
+                    if (orig) {
+                        lastValues[field] = orig.value;
+                    }
+                });
+                setInterval(function () {
+                    var changed = false;
+                    levelFields.forEach(function (field) {
+                        var orig = document.getElementById('inputLevel_' + field);
+                        var mob = document.getElementById('inputLevel_' + field + '_mobile');
+                        if (orig && mob && orig.value !== lastValues[field]) {
+                            mob.value = orig.value;
+                            lastValues[field] = orig.value;
+                            changed = true;
+                        }
+                    });
+                }, 500);
             });
         })();
     </script>

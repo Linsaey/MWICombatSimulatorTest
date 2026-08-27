@@ -542,15 +542,13 @@
                 gap: 10px;
             }
 
-                       #profileRow {
-                flex: 0 0 100%;
-                max-width: 100%;
+            #profileRow {
                 display: grid;
                 grid-template-columns: 1fr;
                 gap: 6px;
-                margin:8px 0 0 0;
+                margin-left: 0;
+                margin-right: 0;
             }
-
 
             #profileRow>* {
                 padding-left: 0;
@@ -1369,10 +1367,6 @@
                                     <span class="slider round"></span>
                                 </label>
                             </div>
-                            <div class="col-md-auto" id="profileRow">
-                                <label for="comboBox">Select an Character: </label>
-                                <select id="profile-combo-container"></select>
-                            </div>
                         </div>
 
                         <div class="row mb-2 pt-3">
@@ -1381,6 +1375,11 @@
                                     All Zones Data
                                 </button>
                             </div>
+                        </div>
+
+                        <div id="profileRow">
+                            <label for="comboBox">Select an Character: </label>
+                            <select id="profile-combo-container"></select>
                         </div>
                     </div>
                 </div>

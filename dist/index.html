@@ -132,6 +132,23 @@
             min-height: 42px;
         }
 
+        #localImportHolder {
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        #buttonSoloTeamImport {
+            width: 100%;
+            min-height: 42px;
+            background: #ffa500;
+            color: #000;
+            border: none;
+            font-weight: 600;
+            white-space: normal;
+            line-height: 1.3;
+            padding: 8px 10px;
+        }
+
         .mobile-details {
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 8px;
@@ -1374,6 +1391,9 @@
                                     <span class="slider round"></span>
                                 </label>
                             </div>
+                            <div class="col-md-auto local-import-holder" id="localImportHolder">
+                                <button type="button" id="buttonSoloTeamImport">单人/组队导入（刷新游戏网页更新人物数据）</button>
+                            </div>
                         </div>
 
                         <div class="row mb-2 pt-3">
@@ -1786,6 +1806,8 @@
                                     <div class="form-check"><input class="form-check-input player-checkbox" type="checkbox" id="player1"><label class="form-check-label" for="player1">Player 1</label></div>
                                     <div class="form-check"><input class="form-check-input player-checkbox" type="checkbox" id="player2"><label class="form-check-label" for="player2">Player 2</label></div>
                                     <div class="form-check"><input class="form-check-input player-checkbox" type="checkbox" id="player3"><label class="form-check-label" for="player3">Player 3</label></div>
+                                    <div class="form-check" style="display: none;"><input class="form-check-input player-checkbox" type="checkbox" id="player4"><label class="form-check-label" for="player4">Player 4</label></div>
+                                    <div class="form-check" style="display: none;"><input class="form-check-input player-checkbox" type="checkbox" id="player5"><label class="form-check-label" for="player5">Player 5</label></div>
                                 </div>
                             </div>
                             <div class="col-6 col-md-6 pt-1">
@@ -2269,6 +2291,7 @@
             function findButtonLike(keywords, skipKeywords) {
                 const candidates = Array.from(document.querySelectorAll('button, a, [role="button"], .btn'));
                 for (const el of candidates) {
+                    if (el.id === 'buttonSoloTeamImport') continue;
                     if (el.style.display === 'none') continue;
                     const txt = norm(el.textContent);
                     if (skipKeywords && skipKeywords.some(k => txt.includes(norm(k)))) continue;
@@ -2282,46 +2305,46 @@
             function hideCloudImportButton() {
                 const cloud = findButtonLike(['实时导入网络云数据', '网络云数据']);
                 if (!cloud) return;
-                // 只藏云导入按钮本身，不能藏父节点，否则同容器的「单人/组队导入」会一起消失
                 cloud.style.display = 'none';
             }
 
-            function moveLocalImportButton() {
-                const row = document.getElementById('secondaryControlsRow');
-                if (!row) return;
+            function wireLocalImportButton() {
+                const mine = document.getElementById('buttonSoloTeamImport');
+                if (!mine) return;
 
-                const local = findButtonLike(
+                const real = findButtonLike(
                     ['单人/组队导入', '实时导入本地数据', '本地数据'],
                     ['网络云数据']
                 );
-                if (!local) return;
-                if (local.dataset.mobileMoved === '1') return;
-
-                const oldParent = local.parentElement;
-                const holder = document.getElementById('localImportHolder') || document.createElement('div');
-                holder.className = 'col-md-auto local-import-holder';
-                holder.id = 'localImportHolder';
-
-                local.dataset.mobileMoved = '1';
-                holder.appendChild(local);
-
-                const darkModeRow = document.getElementById('darkModeRow');
-                if (darkModeRow && darkModeRow.parentElement === row) {
-                    darkModeRow.insertAdjacentElement('afterend', holder);
-                } else if (holder.parentElement !== row) {
-                    row.appendChild(holder);
+                if (real && real !== mine) {
+                    real.style.display = 'none';
+                    mine._userscriptBtn = real;
                 }
 
-                if (oldParent && oldParent !== holder && !oldParent.querySelector('button, a, [role="button"], .btn, input, select')) {
-                    oldParent.style.display = 'none';
-                }
+                if (mine.dataset.wired === '1') return;
+                mine.dataset.wired = '1';
+                mine.addEventListener('click', function () {
+                    if (mine._userscriptBtn) {
+                        mine._userscriptBtn.click();
+                        return;
+                    }
+                    const latest = findButtonLike(
+                        ['单人/组队导入', '实时导入本地数据', '本地数据'],
+                        ['网络云数据']
+                    );
+                    if (latest && latest !== mine) {
+                        latest.click();
+                        return;
+                    }
+                    alert('未检测到油猴导入脚本。电脑请确认 Tampermonkey 已启用；手机浏览器通常不会运行该脚本。');
+                });
             }
 
             function cleanupUi() {
                 hideLanguageButtons();
                 hideTopGamePresetBlock();
                 hideCloudImportButton();
-                moveLocalImportButton();
+                wireLocalImportButton();
             }
 
             // 补丁：拦截 document.querySelector，为导入时缺失的元素返回安全的虚拟元素
